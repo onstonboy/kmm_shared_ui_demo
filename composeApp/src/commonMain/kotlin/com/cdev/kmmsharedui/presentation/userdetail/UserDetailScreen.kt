@@ -1,9 +1,14 @@
 package com.cdev.kmmsharedui.presentation.userdetail
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -34,7 +39,21 @@ data class UserDetailScreen(val userDomainModel: UserDomainModel): Screen {
 @Composable
 private fun VoucherDetail(state: UserDetailState, navigator: Navigator) {
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "User Detail") },
+                navigationIcon =  {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                        contentDescription = "Back",
+                        modifier = Modifier.clickable {
+                            navigator.pop()
+                        }
+                    )
+                },
+            )
+        }
     ) {
         when (state) {
             is UserDetailState.Success -> {

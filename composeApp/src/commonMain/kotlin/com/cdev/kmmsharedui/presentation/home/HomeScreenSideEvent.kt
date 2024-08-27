@@ -1,5 +1,5 @@
 package com.cdev.kmmsharedui.presentation.home
 
-sealed class HomeScreenSideEvent {
-    data object GetUsers : HomeScreenSideEvent()
+sealed interface HomeScreenSideEvent {
+    data object GetUsers : HomeScreenSideEvent
 }

@@ -13,8 +13,7 @@ class UserDetailScreenModel : ScreenModel {
 
     private var userDomainModel: UserDomainModel? = null
 
-    fun onIntent(intent: UserDetailSideEvent) {
-
+    fun onIntent(intent: UserDetailSideEvent) =
         when (intent) {
             is UserDetailSideEvent.CacheUser -> {
                 userDomainModel = intent.userDomainModel
@@ -23,5 +22,4 @@ class UserDetailScreenModel : ScreenModel {
                 }
             }
         }
-    }
 }
