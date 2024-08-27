@@ -82,6 +82,9 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "BASE_URL_DEV", Config.Debug.BASE_URL)
+        buildConfigField("String", "BASE_URL_PROD", Config.Release.BASE_URL)
     }
     packaging {
         resources {

@@ -1,25 +1,27 @@
 package com.cdev.kmmsharedui.helper
 
-import com.cdev.kmmsharedui.helper.resource.AppConstant
 import com.cdev.kmmsharedui.BuildConfig
 
 class MyBuildConfigure {
 
     fun getBaseUrl(): String {
         return when (BuildConfig.FLAVOR) {
-            "dev" -> {
-                AppConstant.BASE_URL_DEV
-            }
+            FLAVOR_DEV -> BuildConfig.BASE_URL_DEV
 
-            "prod" -> {
+            FLAVOR_PROD -> {
                 if (BuildConfig.DEBUG) {
-                    AppConstant.BASE_URL_DEV
+                    BuildConfig.BASE_URL_DEV
                 }  else {
-                    AppConstant.BASE_URL_PROD
+                    BuildConfig.BASE_URL_PROD
                 }
             }
 
-            else -> AppConstant.BASE_URL_DEV
+            else -> BuildConfig.BASE_URL_DEV
         }
+    }
+
+    companion object {
+        const val FLAVOR_DEV = "dev"
+        const val FLAVOR_PROD = "prod"
     }
 }
