@@ -9,6 +9,8 @@ import com.cdev.kmmsharedui.data.remote.service.UserKtorServiceImpl
 import com.cdev.kmmsharedui.data.repository.UserRepository
 import com.cdev.kmmsharedui.data.repository.UserRepositoryImpl
 import com.cdev.kmmsharedui.domain.usecase.home.GetUsersUseCase
+import com.cdev.kmmsharedui.domain.util.CoroutineProvider
+import com.cdev.kmmsharedui.domain.util.CoroutineProviderImpl
 import com.cdev.kmmsharedui.presentation.home.HomeScreenModel
 import com.cdev.kmmsharedui.presentation.userdetail.UserDetailScreenModel
 import io.ktor.client.HttpClient
@@ -23,6 +25,7 @@ import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.factoryOf
@@ -52,7 +55,11 @@ fun commonModule(enableNetworkLogs: Boolean, baseUrl: String, mySharedPref: MySh
         mySharedPref
     ) + getUseCaseModule() + getHelperModule() + screenModelsModule
 
-fun getHelperModule() = module {}
+fun getHelperModule() = module {
+    single<CoroutineProvider> {
+        CoroutineProviderImpl
+    }
+}
 
 fun getDataModule(enableNetworkLogs: Boolean, baseUrl: String, mySharedPref: MySharedPref) = module {
     single {
@@ -82,11 +89,13 @@ fun getDataModule(enableNetworkLogs: Boolean, baseUrl: String, mySharedPref: MyS
     single<UserRepository> {
         UserRepositoryImpl(
             get(),
+            get(),
             get()
         )
     }
 }
 
+@OptIn(ExperimentalSerializationApi::class)
 fun createHttpClient(enableNetworkLogs: Boolean, baseUrl: String) = HttpClient {
     install(HttpTimeout) {
         socketTimeoutMillis = 60_000

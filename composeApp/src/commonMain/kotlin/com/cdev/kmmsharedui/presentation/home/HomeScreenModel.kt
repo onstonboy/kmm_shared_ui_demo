@@ -18,14 +18,16 @@ class HomeScreenModel(
     private val _state = MutableStateFlow<HomeScreenState>(HomeScreenState.Idle)
     var state = _state.asStateFlow()
 
-    fun onIntent(intent: HomeScreenSideEvent) {
+    init {
+        getUsers()
+    }
 
+    fun onIntent(intent: HomeScreenSideEvent) =
         when (intent) {
             is HomeScreenSideEvent.GetUsers -> {
                 getUsers()
             }
         }
-    }
 
     private fun getUsers() {
         screenModelScope.launch {
